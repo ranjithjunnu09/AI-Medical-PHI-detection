@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+pytesseract
+pdf2image
+pillow
+#easyocr
+requests
+python-multipart
+faker

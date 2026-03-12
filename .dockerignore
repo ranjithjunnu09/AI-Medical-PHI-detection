@@ -1,0 +1,29 @@
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment
+venv/
+env/
+
+# Git
+.git
+.gitignore
+
+# Logs
+*.log
+
+# Local uploads
+uploads/
+
+# Reports
+reports.json
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Docker
+docker-compose.yml

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>AI Medical De-Identification</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+body{
+font-family:Arial;
+background:#f4f6f9;
+margin:40px;
+}
+
+.container{
+max-width:1200px;
+margin:auto;
+}
+
+.card{
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0px 3px 10px rgba(0,0,0,0.1);
+margin-bottom:25px;
+}
+
+.result-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:20px;
+}
+
+textarea{
+width:100%;
+height:350px;
+padding:10px;
+font-family:monospace;
+}
+
+button{
+padding:10px 20px;
+background:#007bff;
+color:white;
+border:none;
+border-radius:6px;
+cursor:pointer;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>AI Medical De-Identification System</h1>
+
+<div class="card">
+
+<input type="file" id="file">
+
+<button onclick="upload()">Process Document</button>
+
+</div>
+
+<div class="card result-grid">
+
+<div>
+<h3>Original Document</h3>
+<textarea id="original"></textarea>
+</div>
+
+<div>
+<h3>Redacted Document</h3>
+<textarea id="redacted"></textarea>
+</div>
+
+</div>
+
+<div class="card">
+
+<h3>PHI Redaction Report</h3>
+
+<pre id="report"></pre>
+
+</div>
+
+<div class="card">
+
+<h3>Compliance Dashboard</h3>
+
+<canvas id="chart"></canvas>
+
+</div>
+
+</div>
+
+<script>
+
+async function upload(){
+
+let file=document.getElementById("file").files[0]
+
+let form=new FormData()
+
+form.append("file",file)
+
+let r=await fetch("/process",{method:"POST",body:form})
+
+let data=await r.json()
+
+document.getElementById("original").value = data.original
+document.getElementById("redacted").value = data.redacted
+
+document.getElementById("report").innerText =
+"Detected PHI:\n" + JSON.stringify(data.report,null,2)
+
+loadDashboard()
+
+}
+
+async function loadDashboard(){
+
+let r=await fetch("/dashboard")
+
+let data=await r.json()
+
+new Chart(document.getElementById("chart"),{
+
+type:"bar",
+
+data:{
+labels:Object.keys(data),
+datasets:[{
+label:"Detected PHI",
+data:Object.values(data),
+backgroundColor:"rgba(0,123,255,0.6)"
+}]
+}
+
+})
+
+}
+
+loadDashboard()
+
+</script>
+
+</body>
+</html>
