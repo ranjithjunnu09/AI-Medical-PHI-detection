@@ -43,10 +43,6 @@ Provides a simple web interface
 
 Runs fully containerized using Docker Compose
 
-Problem Statement (Assignment Context)
-
-This project was developed as part of the Software Engineer Intern evaluation assignment for Quanteon Solutions.
-
 The goal was to build a functional prototype of an Automated HIPAA De-identification System that:
 
 Detects PHI in medical documents
